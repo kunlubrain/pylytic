@@ -1,0 +1,13 @@
+# https://learnpython.com/blog/python-requirements-file/
+# Create new environment in console:
+# 1. Navigate to repository folder with requirements.txt in it
+# 2. Execute: conda create --name pylytic --file requirements.txt python=3.10 -c conda-forge
+black==22.10.0			# remove for production
+flake8==5.0.4			# remove for production
+ipykernel==6.19.2		# remove for production
+pandas==1.5.1
+pre-commit==2.20.0		# remove for production
+prophet==1.1.1
+pytest==7.1.2			# remove for production
+scikit-learn==1.2.0
+# tslearn==0.5.2

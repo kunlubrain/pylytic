@@ -17,7 +17,7 @@ Data analytics using python
 
 ### Natively in python
 
-Example: 
+Example:
 
 ```python
 import pylytic
@@ -40,4 +40,4 @@ print(res.df_pred)
 
 ### As a Service
 
-TODO 
+TODO
