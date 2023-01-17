@@ -5,6 +5,10 @@ Data analytics using python
 
 ...
 
+
+### Used libraries and styles
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 ## Supported Analytics
 
 - Forecast
@@ -41,3 +45,10 @@ print(res.df_pred)
 ### As a Service
 
 TODO
+
+## Authors
+[Johannes Schöck](https://github.com/JSchoeck)
+
+### Building the project
+- Uses build package: pip install build
+- Invoke build: python -m build
