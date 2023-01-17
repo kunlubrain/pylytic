@@ -6,10 +6,15 @@
 # Linkedin: https://www.linkedin.com/in/johannes-schoeck/
 # StackOverflow: https://stackoverflow.com/users/3960182/johannes-sch%c3%b6ck?tab=profile
 
+import context
 import pytest
 import pandas as pd
 
-from pylytic.pylytic import *
+# TODO: remove, only for debugging imports
+# import sys
+# print("In module products sys.path[0], __package__ ==", sys.path[0], __package__)
+
+from core import main
 
 
 # TODO: Does the module return expected values?
@@ -37,4 +42,5 @@ def test_main():
 
 
 # def test_timeseries_prediction():
-#     assert
+# timeseries_prediction(mock_timeseries_data, {"forecast_freq": "D", "forecast_period": 28})
+# assert

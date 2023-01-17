@@ -1,16 +1,21 @@
 {
+    "python.analysis.extraPaths": [
+        "C:\\ProgramData\\Anaconda3\\envs\\pylytic\\Lib\\site-packages",
+		"E:\\Nextcloud\\GitHub\\pylytic\\src\\pylytic",
+    ],
     "python.linting.enabled": true,
     "python.linting.flake8Enabled": true,
-	"python.linting.flake8Args": [
-		"--ignore=E402,F841,F401,E302,E305",
-		"--max-line-length=120\""
+    "python.linting.flake8Args": [
+        "--ignore=E402,F841,F401,E302,E305",
+        "--max-line-length=120\""
     ],
-	"editor.formatOnType": true,
+    "editor.formatOnType": true,
     "python.formatting.provider": "black",
-    "python.formatting.blackArgs": ["--line-length", "120"],
-    "python.testing.pytestArgs": [
-        "tests"
+    "python.formatting.blackArgs": [
+        "--line-length",
+        "120"
     ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestArgs": [
+        "tests/"
+    ],
 }

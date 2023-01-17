@@ -1,6 +1,5 @@
-import os
-import sys
+import os, sys
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-import pylytic
+# path = os.path.join(os.getcwd(), r"src\pylytic")
+path = os.path.join(os.getcwd(), r"src\pylytic")
+sys.path.insert(0, path)
