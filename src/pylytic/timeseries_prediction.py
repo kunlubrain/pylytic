@@ -103,3 +103,9 @@ def timeseries_prediction(df: pd.DataFrame, kwargs: dict) -> Tuple[pd.DataFrame,
     )  # Datetime column, prediction (yhat), yhat_lower, yhat_upper, maybe error metric like MAE
     accuracy = 0  # MAE or similar ?
     return (df_result, accuracy)
+
+
+if __name__ == "__main__":
+    timeseries_prediction(
+        example_timeseries_data(), {"forecast_freq": "D", "forecast_period": 28}
+    )
