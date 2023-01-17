@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+# tells pip how to build your pypi webpage & what dependencies to install
+[project]
+name = "pylytic"
+dynamic = ["version", "readme", "dependencies"]
+authors = [
+  { name="Johannes Schöck", email="johannes@schoeck.org" }]
+description = "A wrapper for common machine learning tasks for other packages to call."
+license = { file="LICENSE" }
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.md"]}
+version = {attr = "pylytic.__version__"}
+dependencies = {file = ["requirements.txt"]}
+
+[project.urls]
+"Homepage" = "https://github.com/kunlubrain/pylytic"
+"Bug Tracker" = "https://github.com/kunlubrain/pylytic/issues"
