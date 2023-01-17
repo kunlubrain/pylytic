@@ -1,25 +1,39 @@
+# To update pre-commit configuration:
+# Open anaconda terminal
+# Go to repository root dir, where .pre-commit-config.yaml is located
+# Execute: pre-commit install
+# (Optional) Test new configuration by executing: pre-commit run --all-files
+
 default_language_version:
-    python: "3.10"
+    python: python3.10
+exclude: '^$'
+fail_fast: true
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
     -   id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
+        types: [text, python]
     -   id: check-ast
+        types: [python]
     -   id: check-docstring-first
+        types: [python]
     -   id: end-of-file-fixer
+        types: [python]
 -   repo: https://github.com/psf/black
     rev: 22.10.0
     hooks:
     -   id: black
+        types: [python]
 -   repo: local
     hooks:
     -   id: pytest
         name: pytest
-        stages: [commit]
+        stages: [push]
         types: [python]
-        entry: pytest
+        entry: pytest  # maybe need to cd into correct dir? see https://stackoverflow.com/questions/63232136/how-to-run-pre-commit-on-separate-folders
         language: system
         pass_filenames: false
         always_run: true
+        fail_fast: false
