@@ -31,7 +31,7 @@ repos:
     -   id: pytest
         name: pytest
         stages: [push]
-        types: [python]
+        # types: [python]
         entry: pytest  # maybe need to cd into correct dir? see https://stackoverflow.com/questions/63232136/how-to-run-pre-commit-on-separate-folders
         language: system
         pass_filenames: false
