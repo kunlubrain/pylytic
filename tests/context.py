@@ -1,4 +1,5 @@
-import os, sys
+import os
+import sys
 
 # path = os.path.join(os.getcwd(), r"src\pylytic")
 path = os.path.join(os.getcwd(), r"src\pylytic")

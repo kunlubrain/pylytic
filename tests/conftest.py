@@ -3,7 +3,6 @@
 
 import context
 import pytest
-
 from timeseries_prediction import example_timeseries_data
 
 

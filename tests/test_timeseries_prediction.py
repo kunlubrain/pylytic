@@ -9,9 +9,8 @@
 from typing import Tuple
 
 import context
-import pytest
 import pandas as pd
-
+import pytest
 from timeseries_prediction import example_timeseries_data, timeseries_prediction
 
 

@@ -10,7 +10,6 @@ from typing import Tuple
 
 import numpy as np
 import pandas as pd
-
 from prophet import Prophet
 from prophet.diagnostics import cross_validation, performance_metrics
 from prophet.plot import plot_cross_validation_metric

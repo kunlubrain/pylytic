@@ -7,14 +7,13 @@
 # StackOverflow: https://stackoverflow.com/users/3960182/johannes-sch%c3%b6ck?tab=profile
 
 import context
-import pytest
 import pandas as pd
+import pytest
+from core import main
 
 # TODO: remove, only for debugging imports
 # import sys
 # print("In module products sys.path[0], __package__ ==", sys.path[0], __package__)
-
-from core import main
 
 
 # TODO: Does the module return expected values?
