@@ -27,12 +27,6 @@ repos:
     -   id: end-of-file-fixer
         types: [python]
         fail_fast: false
--   repo: https://github.com/psf/black
-    rev: 22.10.0
-    hooks:
-    -   id: black
-        types: [python]
-        fail_fast: false
 -   repo: https://github.com/asottile/seed-isort-config
     rev: v2.2.0
     hooks:
@@ -41,6 +35,12 @@ repos:
     rev: v5.4.2
     hooks:
     -   id: isort
+        fail_fast: false
+-   repo: https://github.com/psf/black
+    rev: 22.10.0
+    hooks:
+    -   id: black
+        types: [python]
         fail_fast: false
 -   repo: local
     hooks:
