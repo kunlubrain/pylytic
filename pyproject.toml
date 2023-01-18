@@ -2,8 +2,8 @@
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
-# tells pip how to build your pypi webpage & what dependencies to install
 [project]
+# tells pip how to build your pypi webpage & what dependencies to install
 name = "pylytic"
 dynamic = ["version", "readme", "dependencies"]
 authors = [
@@ -24,3 +24,7 @@ dependencies = {file = ["requirements.txt"]}
 [project.urls]
 "Homepage" = "https://github.com/kunlubrain/pylytic"
 "Bug Tracker" = "https://github.com/kunlubrain/pylytic/issues"
+
+[settings]
+# from isort pre-commit hook
+known_third_party = ["anomaly_detection", "classification", "clustering", "context", "core", "numpy", "pandas", "prophet", "pytest", "regression", "timeseries_prediction"]

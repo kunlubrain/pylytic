@@ -12,6 +12,11 @@ repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
+    -   id: check-ast  # Is it valid Python?
+    -   id: debug-statements  # Check for debugger imports and py37+ breakpoint() calls in python source.
+    # -   id: detect-aws-credentials
+    -   id: detect-private-key
+    -   id: check-added-large-files
     -   id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
         types: [text, python]
@@ -26,14 +31,24 @@ repos:
     hooks:
     -   id: black
         types: [python]
+-   repo: https://github.com/asottile/seed-isort-config
+    rev: v2.2.0
+    hooks:
+    -   id: seed-isort-config
+-   repo: https://github.com/pre-commit/mirrors-isort
+    rev: v5.4.2
+    hooks:
+    -   id: isort
 -   repo: local
     hooks:
-    -   id: pytest
-        name: pytest
+    -   id: pytest-check
+        name: pytest-check
         stages: [push]
-        # types: [python]
+        types: [python]
         entry: pytest  # maybe need to cd into correct dir? see https://stackoverflow.com/questions/63232136/how-to-run-pre-commit-on-separate-folders
         language: system
         pass_filenames: false
-        always_run: true
+        always_run: false
         fail_fast: false
+        verbose: true
+        log_file: git_pytest_.log
