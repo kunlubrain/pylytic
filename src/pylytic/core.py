@@ -10,12 +10,17 @@
 # - User should be able to specify options, but start with minimum necessary default parameters
 # - Specify required input variables for each task (calling module needs to take care of providing them)
 
+import sys
+
 #%%
 from typing import Tuple
 
 import numpy as np
 import pandas as pd
 
+print("In module products sys.path[0], __package__ ==", sys.path[0], __package__)
+
+# from . import *
 from anomaly_detection import anomaly_detection
 from classification import classification
 from clustering import clustering
