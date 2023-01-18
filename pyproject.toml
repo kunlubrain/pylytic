@@ -25,6 +25,9 @@ dependencies = {file = ["requirements.txt"]}
 "Homepage" = "https://github.com/kunlubrain/pylytic"
 "Bug Tracker" = "https://github.com/kunlubrain/pylytic/issues"
 
+[tool.isort]
+profile = "black"
+
 [settings]
 # from isort pre-commit hook
 known_third_party = ["anomaly_detection", "classification", "clustering", "context", "core", "numpy", "pandas", "prophet", "pytest", "regression", "timeseries_prediction"]
