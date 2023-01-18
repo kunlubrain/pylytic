@@ -43,10 +43,10 @@ repos:
         name: pytest-check
         stages: [push]
         types: [python]
-        entry: pytest  # maybe need to cd into correct dir? see https://stackoverflow.com/questions/63232136/how-to-run-pre-commit-on-separate-folders
+        files: \.py$
         language: system
+        entry: C:/Users/Johannes/anaconda3/Scripts/pytest.exe ./tests/ --cov=./ --cov-fail-under=50
         pass_filenames: false
         always_run: false
         fail_fast: false
         verbose: true
-        log_file: git_pytest_.log
