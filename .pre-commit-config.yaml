@@ -37,16 +37,18 @@ repos:
     hooks:
     -   id: black
         types: [python]
--   repo: local
-    hooks:
-    -   id: pytest-check
-        name: pytest-check
-        stages: [push]
-        types: [python]
-        files: \.py$
-        language: system
-        entry: C:/Users/Johannes/anaconda3/Scripts/pytest.exe ./tests/ --cov=./ --cov-fail-under=50
-        pass_filenames: false
-        always_run: false
-        fail_fast: false
-        verbose: true
+#
+# pytest does not use the correct environment
+#-   repo: local
+#    hooks:
+#    -   id: pytest-check
+#        name: pytest-check
+#        stages: [push]
+#        types: [python]
+#        files: \.py$
+#        language: system
+#        entry: C:/Users/Johannes/anaconda3/Scripts/pytest.exe ./tests/ --cov=./ --cov-fail-under=50
+#        pass_filenames: false
+#        always_run: false
+#        fail_fast: false
+#        verbose: true
