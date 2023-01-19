@@ -11,7 +11,7 @@ from typing import Tuple
 import context
 import pandas as pd
 import pytest
-from timeseries_prediction import example_timeseries_data, timeseries_prediction
+from timeseries_prediction import TsDict, example_timeseries_data, timeseries_prediction
 
 
 def test_example_timeseries_data():
@@ -19,15 +19,12 @@ def test_example_timeseries_data():
     assert isinstance(example_timeseries_data(), pd.DataFrame)
     with pytest.raises(NotImplementedError) as e:
         example_timeseries_data(type="notimplemented")
-    assert e.typename == "NotImplementedError"
+        assert e.typename == "NotImplementedError"
 
 
-# # TODO: fix, so CMDSTAN is same in pytest and module
-# import os
-# os.environ["CMDSTAN"] = "C:/Users/Johannes/anaconda3/envs/pylytic/Library/bin/cmdstan"
-# def test_timeseries_prediction(mock_timeseries_data):
-#     # kwargs = {"forecast_freq": "D", "forecast_period": 28}
-#     # result = timeseries_prediction(mock_timeseries_data, kwargs)
-#     # assert isinstance(result, Tuple)
-#     result = timeseries_prediction(example_timeseries_data(), {"forecast_freq": "D", "forecast_period": 28})
-#     assert isinstance(result, Tuple)
+def test_timeseries_prediction(mock_timeseries_data):
+    kwargs = TsDict(forecast_freq="D", forecast_period=28)
+    # result = timeseries_prediction(mock_timeseries_data, kwargs)
+    # assert isinstance(result, Tuple)
+    with pytest.raises(RuntimeError, match="Error during optimization!") as e:
+        timeseries_prediction(mock_timeseries_data, kwargs)

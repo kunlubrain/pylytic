@@ -5,14 +5,23 @@
 # Github: https://github.com/JSchoeck
 # Linkedin: https://www.linkedin.com/in/johannes-schoeck/
 # StackOverflow: https://stackoverflow.com/users/3960182/johannes-sch%c3%b6ck?tab=profile
+#%%
+from typing import Tuple, TypedDict
 
-from typing import Tuple
-
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from prophet import Prophet
 from prophet.diagnostics import cross_validation, performance_metrics
 from prophet.plot import plot_cross_validation_metric
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+
+# from sklearn.model_selection import TimeSeriesSplit
+
+
+class TsDict(TypedDict):
+    forecast_freq: str
+    forecast_period: int
 
 
 def example_timeseries_data(type="sales") -> pd.DataFrame:
@@ -41,7 +50,7 @@ def example_timeseries_data(type="sales") -> pd.DataFrame:
         raise NotImplementedError(f"Example dataset of type {type} is not implemented.")
 
 
-def timeseries_prediction(df: pd.DataFrame, kwargs: dict) -> Tuple[pd.DataFrame, int]:
+def timeseries_prediction(df: pd.DataFrame, kwargs: TsDict) -> Tuple[pd.DataFrame, int]:
     """Wrapper-function for timeseries models to predict a time range based on historic data.
     Currently the Prophet library is used.
 
@@ -57,20 +66,20 @@ def timeseries_prediction(df: pd.DataFrame, kwargs: dict) -> Tuple[pd.DataFrame,
     """
     if df.empty:  # If no data has been passed, load example dataset of a chosen type
         df = example_timeseries_data()
+        kwargs = {"forecast_freq": "D", "forecast_period": 28}
         example_mode = True
     else:
         example_mode = False
     df.head()
 
-    # TODO: split df into segments
-    # TODO: split segments into training and test data
-    # TODO: define default model parameters
-    # TODO: handle / add features
-    # Custom seasonality: m.add_seasonality(name='monthly', period=30.5, fourier_order=5)  # order is # of parameters
-
     # Define timeseries prediction model
     m = Prophet()  # TODO: define add seasonality, holiday and other features
     m.fit(df)
+
+    # TODO: split df into segments / split segments into training and test data
+    # TODO: define default model parameters
+    # TODO: handle / add features
+    # Custom seasonality: m.add_seasonality(name='monthly', period=30.5, fourier_order=5)  # order is # of parameters
 
     # Create timeseries for future data to be predicted
     # TODO: Add check if kwargs["forecast_freq"] is a valid freq for pd.date_range or add try to catch error.
@@ -79,19 +88,30 @@ def timeseries_prediction(df: pd.DataFrame, kwargs: dict) -> Tuple[pd.DataFrame,
     )
 
     # Predict future data
-    forecast = m.predict(future)
-    print(forecast[["ds", "yhat", "yhat_lower", "yhat_upper"]].tail())
+    df_forecast = m.predict(future)
+    print(df_forecast[["ds", "yhat", "yhat_lower", "yhat_upper"]].tail())
 
     # TODO: Iterative training / testing of model of time periods / stratified validation
+    horizon = "1 Y"
+    df_cv = cross_validation(m, horizon)
     # df_cv = cross_validation(m, initial='730 days', period='180 days', horizon = '365 days')
-    # df_p = performance_metrics(df_cv)
-    # fig = plot_cross_validation_metric(df_cv, metric='mape')
+    df_p = performance_metrics(df_cv)
+    print(df_p)
+    fig = plot_cross_validation_metric(df_cv, metric="mape")
+    # plt.show()
+    # With CV
+    mae = mean_absolute_error(df_cv["y"], df_cv["yhat"])
+    mse = mean_squared_error(df_cv["y"], df_cv["yhat"])
+    print(f"CV MAE: {mae}, CV MSE: {mse}")
     # https://facebook.github.io/prophet/docs/diagnostics.html
 
     # Plot results, only if running in example mode?
+    print(f"example_mode: {example_mode}")
     if example_mode:
-        fig1 = m.plot(forecast)
-        fig2 = m.plot_components(forecast)
+        fig1 = m.plot(df_forecast)
+        # plt.show()
+        fig2 = m.plot_components(df_forecast)
+    plt.show()
 
     # TODO: Output:
     # dataframe with only forecast rows
@@ -105,6 +125,4 @@ def timeseries_prediction(df: pd.DataFrame, kwargs: dict) -> Tuple[pd.DataFrame,
 
 
 if __name__ == "__main__":
-    timeseries_prediction(
-        example_timeseries_data(), {"forecast_freq": "D", "forecast_period": 28}
-    )
+    timeseries_prediction(pd.DataFrame(), {"forecast_freq": "", "forecast_period": 0})

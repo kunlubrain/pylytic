@@ -10,22 +10,17 @@
 # - User should be able to specify options, but start with minimum necessary default parameters
 # - Specify required input variables for each task (calling module needs to take care of providing them)
 
-import sys
 
 #%%
 from typing import Tuple
 
 import numpy as np
 import pandas as pd
-
-print("In module products sys.path[0], __package__ ==", sys.path[0], __package__)
-
-# from . import *
-from anomaly_detection import anomaly_detection
-from classification import classification
-from clustering import clustering
-from regression import regression
-from timeseries_prediction import timeseries_prediction
+from anomaly_detection import AdDict, anomaly_detection
+from classification import ClaDict, classification
+from clustering import CluDict, clustering
+from regression import ReDict, regression
+from timeseries_prediction import TsDict, timeseries_prediction
 
 
 def main(df: pd.DataFrame, kwargs: dict) -> Tuple[pd.DataFrame, int]:
@@ -42,16 +37,17 @@ def main(df: pd.DataFrame, kwargs: dict) -> Tuple[pd.DataFrame, int]:
         pd.DataFrame: Predicted data and metrics with the same index as the input dataset.
     """
     task = kwargs.pop("task")
+    # NOTE: TypedDict kwargs has different keys for each task, so "# type: ignore" is needed
     if task == "anomaly_detection":
-        df_result, accuracy = anomaly_detection()  # type: ignore #TODO: remove when implemented
+        df_result, accuracy = anomaly_detection()  # type: ignore
     elif task == "classification":
-        df_result, accuracy = classification()  # type: ignore #TODO: remove when implemented
+        df_result, accuracy = classification()  # type: ignore
     elif task == "clustering":
-        df_result, accuracy = clustering()  # type: ignore #TODO: remove when implemented
+        df_result, accuracy = clustering()  # type: ignore
     elif task == "regression":
-        df_result, accuracy = regression()  # type: ignore #TODO: remove when implemented
+        df_result, accuracy = regression()  # type: ignore
     elif task == "timeseries_prediction":
-        df_result, accuracy = timeseries_prediction(df, kwargs)
+        df_result, accuracy = timeseries_prediction(df, TsDict(**kwargs))
     else:
         raise NotImplementedError(f"The prediction task {task} is not implemented.")
     return df_result, accuracy

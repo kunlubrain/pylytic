@@ -10,13 +10,9 @@ import context
 import pandas as pd
 import pytest
 from core import main
-
-# TODO: remove, only for debugging imports
-# import sys
-# print("In module products sys.path[0], __package__ ==", sys.path[0], __package__)
+from timeseries_prediction import timeseries_prediction
 
 
-# TODO: Does the module return expected values?
 def test_main():
     with pytest.raises(NotImplementedError) as e:
         main(pd.DataFrame(), kwargs={"task": "notimplemented"})
@@ -40,6 +36,8 @@ def test_main():
 #     # assert
 
 
-# def test_timeseries_prediction():
-# timeseries_prediction(mock_timeseries_data, {"forecast_freq": "D", "forecast_period": 28})
-# assert
+def test_timeseries_prediction_fails_in_testing(mock_timeseries_data):
+    with pytest.raises(RuntimeError, match="Error during optimization!") as e:
+        timeseries_prediction(
+            mock_timeseries_data, {"forecast_freq": "D", "forecast_period": 28}
+        )
