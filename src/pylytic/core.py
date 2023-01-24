@@ -57,6 +57,8 @@ if __name__ == "__main__":
     # TODO: Example call, replace with parameters from calling module
     kwargs = {
         "task": "timeseries_prediction",
+        "datetime_col": "ds",
+        "target_col": "y",
         "forecast_freq": "D",  # Any valid frequency for pd.date_range, such as 'D' or 'M'.
         "forecast_period": 365,
     }

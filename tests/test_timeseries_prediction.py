@@ -23,7 +23,9 @@ def test_example_timeseries_data():
 
 
 def test_timeseries_prediction(mock_timeseries_data):
-    kwargs = TsDict(forecast_freq="D", forecast_period=28)
+    kwargs = TsDict(
+        datetime_col="ds", target_col="y", forecast_freq="D", forecast_period=28
+    )
     # result = timeseries_prediction(mock_timeseries_data, kwargs)
     # assert isinstance(result, Tuple)
     with pytest.raises(RuntimeError, match="Error during optimization!") as e:

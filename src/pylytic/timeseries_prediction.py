@@ -20,6 +20,8 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 
 class TsDict(TypedDict):
+    datetime_col: str
+    target_col: str
     forecast_freq: str
     forecast_period: int
 
@@ -66,7 +68,12 @@ def timeseries_prediction(df: pd.DataFrame, kwargs: TsDict) -> Tuple[pd.DataFram
     """
     if df.empty:  # If no data has been passed, load example dataset of a chosen type
         df = example_timeseries_data()
-        kwargs = {"forecast_freq": "D", "forecast_period": 28}
+        kwargs = {
+            "datetime_col": "ds",
+            "target_col": "y",
+            "forecast_freq": "D",
+            "forecast_period": 28,
+        }
         example_mode = True
     else:
         example_mode = False
@@ -125,4 +132,7 @@ def timeseries_prediction(df: pd.DataFrame, kwargs: TsDict) -> Tuple[pd.DataFram
 
 
 if __name__ == "__main__":
-    timeseries_prediction(pd.DataFrame(), {"forecast_freq": "", "forecast_period": 0})
+    kwargs = TsDict(
+        datetime_col="ds", target_col="y", forecast_freq="D", forecast_period=28
+    )
+    timeseries_prediction(pd.DataFrame(), kwargs)
