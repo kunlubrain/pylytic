@@ -14,6 +14,8 @@ import pandas as pd
 from prophet import Prophet
 from prophet.diagnostics import cross_validation, performance_metrics
 from prophet.plot import plot_cross_validation_metric
+from scipy.special import inv_boxcox
+from scipy.stats import boxcox
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 # from sklearn.model_selection import TimeSeriesSplit
@@ -73,11 +75,20 @@ def timeseries_prediction(df: pd.DataFrame, kwargs: TsDict) -> Tuple[pd.DataFram
             "target_col": "y",
             "forecast_freq": "D",
             "forecast_period": 28,
+            # TODO: how to handle additional feature cols? Are they automatically used?
         }
         example_mode = True
     else:
         example_mode = False
-    df.head()
+    print(df.head())
+
+    # TODO: handle missing parameters: infer best parameters for forecast_freq and _period based on dataset time horizon
+
+    # Transform data
+    df["y"], lam = boxcox(df[kwargs["target_col"]])  # type: ignore
+    # With: CV MAE: 823, CV MSE: 1_433_816  --> calculated from m, not df_forecast! inverse transform required
+    # Without: CV MAE: 13_050, CV MSE: 363_033_310
+    print(df.head())
 
     # Define timeseries prediction model
     m = Prophet()  # TODO: define add seasonality, holiday and other features
@@ -97,6 +108,11 @@ def timeseries_prediction(df: pd.DataFrame, kwargs: TsDict) -> Tuple[pd.DataFram
     # Predict future data
     df_forecast = m.predict(future)
     print(df_forecast[["ds", "yhat", "yhat_lower", "yhat_upper"]].tail())
+
+    # Inverse transformation
+    df_forecast[["yhat", "yhat_upper", "yhat_lower"]] = df_forecast[
+        ["yhat", "yhat_upper", "yhat_lower"]
+    ].apply(lambda x: inv_boxcox(x, lam))
 
     # TODO: Iterative training / testing of model of time periods / stratified validation
     horizon = "1 Y"
@@ -128,6 +144,10 @@ def timeseries_prediction(df: pd.DataFrame, kwargs: TsDict) -> Tuple[pd.DataFram
         pd.DataFrame()
     )  # Datetime column, prediction (yhat), yhat_lower, yhat_upper, maybe error metric like MAE
     accuracy = 0  # MAE or similar ?
+    # What does the enduser really care about? Probably size of the confidence intervall, not measures for training data
+    # Any way to measure confidence in %, i.e. with 95% confidence? p-value relevant?
+    # TODO: compare delta of yhat_lower and _upper for example dataset with different hyperparameters
+    # TODO: find out if prophet has an overall measure for its prediction confidence
     return (df_result, accuracy)
 
 
@@ -136,3 +156,5 @@ if __name__ == "__main__":
         datetime_col="ds", target_col="y", forecast_freq="D", forecast_period=28
     )
     timeseries_prediction(pd.DataFrame(), kwargs)
+
+# %%
